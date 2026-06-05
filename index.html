@@ -235,6 +235,45 @@
 </section>
 <!-- End dataset -->
 
+<!-- HUG-Bench -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-vcentered">
+      <div class="column is-half">
+        <h2 class="title is-3"><span class="sc">HUG-Bench</span></h2>
+        <div class="content has-text-justified">
+          <p>
+            To standardize dexterous grasping evaluation, <span class="sc">HUG-Bench</span> comprises <strong>90 everyday objects</strong> spanning five geometric categories (cylindrical, spheroidal, prismatic, appendaged, amorphous) and three size bins, all unseen during training. Many are articulated, very short, or large and unwieldy, demanding diverse grasp poses and precise spatial accuracy.
+          </p>
+          <p>
+            Each real object is reconstructed into a <strong>metric-scale 3D mesh</strong> from multi-view egocentric scans, enabling paired evaluation in both simulation and the real world. The 30-object <code>test</code> split is reproducible for roughly 250 USD from Amazon.
+          </p>
+        </div>
+      </div>
+      <div class="column is-half">
+        <div class="figure-block" style="max-width: 320px; margin: 0 auto;">
+          <img src="static/images/benchmark_objects.jpg" alt="HUG-Bench test split: 30 unseen objects across five geometry categories and three size bins, shown as real objects (top) and reconstructed simulation assets (bottom)" loading="lazy"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End HUG-Bench -->
+
+<!-- Real-world failure modes -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Real-World Failure Modes</h2>
+    <div class="figure-block">
+      <img src="static/images/failure_modes.jpg" alt="Failure-mode breakdown: Sankey flow of 300 HUG-Bench test trials through pre-grasp, grasp, and lift stages for tabletop and in-the-wild settings" loading="lazy"/>
+      <p class="figure-caption">
+        <strong>Failure-mode breakdown.</strong> Grasp-outcome flow for the 300 <span class="sc">HUG-Bench</span> <code>test</code> trials in each real-world setting, tracing every attempt through the pre-grasp, grasp, and lift stages into success or a specific failure. Left: tabletop (66.7% success). Right: in-the-wild (62.0% success). The dominant failure mode is the absence of motion planning in our minimal open-loop setup.
+      </p>
+    </div>
+  </div>
+</section>
+<!-- End failure modes -->
+
 <!--BibTex citation -->
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
