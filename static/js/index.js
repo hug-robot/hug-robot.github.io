@@ -166,6 +166,14 @@ const SCORES = {
     headphones:    { cap: 6,  dex1b: 7,  hug: 6 },
     easel:         { cap: 4,  dex1b: 2,  hug: 8 },
 };
+// In-the-wild per-object success (out of 10), from tables/real_world_results.tex (HUG in-the-wild column)
+const ITW_SR = {
+    glue_stick: 7, pepper_shaker: 6, umbrella: 6, bowl: 1, spray_bottle: 9, wine_bottle: 10,
+    strawberry: 6, hacky_sack: 10, pear: 10, softball: 8, pineapple: 9, football: 0,
+    eraser: 6, match_box: 8, card_deck: 8, sponge: 7, wipe_dispenser: 4, storage_bin: 8,
+    nail_clipper: 4, lock: 6, dustpan: 6, handbell: 4, saucepan: 7, picnic_basket: 6,
+    rubber_duck: 9, tape_measure: 5, tape_dispenser: 4, grapes: 3, headphones: 2, easel: 7,
+};
 const pretty = o => o.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
 const labUrl = (method, obj) => `${REL}/${method}_${obj}.mp4`;
 const itwUrl = obj => `${REL}/itw_${obj}.mp4`;
@@ -179,9 +187,12 @@ function selectObject(obj, btn) {
     LAB_METHODS.forEach(([method, id]) => {
         const v = document.getElementById(id);
         if (v) {
+            v.muted = true;  // Safari checks the property (not attr) for muted autoplay
             v.src = labUrl(method, obj);
             v.load();
-            v.play().catch(() => {});  // muted, so autoplay is allowed
+            const play = () => v.play().catch(() => {});
+            play();
+            v.addEventListener('canplay', play, { once: true });  // Safari: retry once ready
         }
         const s = sc[method];
         const rate = document.getElementById('rate-' + method);
@@ -229,7 +240,8 @@ function buildObjectTable() {
         grid.appendChild(h);
     });
     // one row per size
-    let first = true;
+    const DEFAULT_OBJ = "spray_bottle";
+    let fallback = null;
     SIZES.forEach(([sz, szFull]) => {
         const lbl = document.createElement('div');
         lbl.className = 'ot-size';
@@ -239,38 +251,55 @@ function buildObjectTable() {
         GEOMETRIES.forEach(g => CELLS[g][sz].forEach(obj => {
             const btn = makeThumb(obj);
             grid.appendChild(btn);
-            if (first) { selectObject(obj, btn); first = false; }  // default-select first cell
+            if (!fallback) fallback = btn;
+            if (obj === DEFAULT_OBJ) selectObject(obj, btn);  // default-select spray bottle
         }));
     });
+    if (!document.querySelector('.object-thumb.is-active') && fallback) fallback.click();
 }
 
 function buildInTheWildCarousel() {
-    const root = document.getElementById('itw-carousel');
-    if (!root) return;
-    OBJECTS.forEach(obj => {
-        const item = document.createElement('div');
-        item.className = 'item';
-        item.innerHTML =
-            `<video preload="none" muted loop playsinline controls>` +
-            `<source src="${itwUrl(obj)}" type="video/mp4"></video>` +
-            `<p class="subtitle">${pretty(obj)}</p>`;
-        root.appendChild(item);
+    const gallery = document.getElementById('itw-gallery');
+    if (!gallery) return;
+    const video = document.getElementById('itw-video');
+    const caption = document.getElementById('itw-caption');
+    const strip = document.getElementById('itw-strip');
+    let current = 0;
+
+    const thumbs = OBJECTS.map((obj, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'itw-thumb';
+        btn.type = 'button';
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-selected', 'false');
+        btn.title = pretty(obj);
+        btn.innerHTML = `<img loading="lazy" src="${thumbUrl(obj)}" alt="${pretty(obj)}">`;
+        btn.addEventListener('click', () => select(i));
+        strip.appendChild(btn);
+        return btn;
     });
-    const insts = bulmaCarousel.attach('#itw-carousel', {
-        slidesToScroll: 1, slidesToShow: 1, loop: true, infinite: true,
-        autoplay: false, navigation: true, pagination: true,
-    });
-    // Play only the visible slide; pause the rest (preload=none -> only it fetches)
-    const playActive = () => {
-        const vids = root.querySelectorAll('video');
-        vids.forEach(v => v.pause());
-        const active = root.querySelector('.slider-item.is-active video, .is-active video');
-        if (active) active.play().catch(() => {});
-    };
-    if (insts && insts.length) {
-        insts[0].on('after:show', playActive);
-        playActive();
+
+    function select(i) {
+        current = (i + OBJECTS.length) % OBJECTS.length;
+        const obj = OBJECTS[current];
+        video.src = itwUrl(obj);
+        video.load();
+        video.play().catch(() => {});
+        const sr = ITW_SR[obj];
+        caption.innerHTML = sr == null ? pretty(obj)
+            : `${pretty(obj)} <span class="itw-sr">${sr}/10</span>`;
+        thumbs.forEach((t, j) => {
+            const on = j === current;
+            t.classList.toggle('is-active', on);
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        thumbs[current].scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
     }
+
+    gallery.querySelector('.itw-prev').addEventListener('click', () => select(current - 1));
+    gallery.querySelector('.itw-next').addEventListener('click', () => select(current + 1));
+    const start = OBJECTS.indexOf('spray_bottle');
+    select(start === -1 ? 0 : start);
 }
 
 $(document).ready(function() {

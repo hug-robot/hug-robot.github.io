@@ -58,7 +58,7 @@
 
   <!-- Critical CSS - Load synchronously -->
   <link rel="stylesheet" href="static/css/bulma.min.css">
-  <link rel="stylesheet" href="static/css/index.css?v=26">
+  <link rel="stylesheet" href="static/css/index.css?v=43">
 
   <!-- Non-critical CSS - Load asynchronously -->
   <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -82,7 +82,7 @@
   <script defer src="static/js/fontawesome.all.min.js"></script>
   <script defer src="static/js/bulma-carousel.min.js"></script>
   <script defer src="static/js/bulma-slider.min.js"></script>
-  <script defer src="static/js/index.js"></script>
+  <script defer src="static/js/index.js?v=6"></script>
 
   <!-- Structured Data for Academic Papers (anonymized) -->
   <script type="application/ld+json">
@@ -118,6 +118,7 @@
   </button>
 
   <main id="main-content">
+  <div class="browser-note">For video playback, please use <strong>Chrome</strong> or <strong>Firefox</strong> &mdash; videos may not play in Safari.</div>
   <section class="hero publication-header">
     <div class="hero-body">
       <div class="container is-max-desktop">
@@ -127,10 +128,6 @@
 
             <div class="is-size-5 publication-authors">
               <span class="author-block">Anonymous Authors</span>
-            </div>
-
-            <div>
-              <span class="review-chip">Under double-blind review</span>
             </div>
 
             <div class="publication-links">
@@ -158,14 +155,24 @@
 
 
 <!-- HUG in the wild (carousel) -->
-<section class="section" id="in-the-wild">
+<section class="section itw-section" id="in-the-wild">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">HUG in the Wild</h2>
-    <p class="subtitle has-text-centered eval-intro">
-      Zero-shot dexterous grasps on everyday objects in real homes &mdash; 10 rollouts per clip, sped up 2&times;.
+    <div class="itw-gallery" id="itw-gallery">
+      <div class="itw-stage">
+        <button class="itw-nav itw-prev" type="button" aria-label="Previous object">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <video id="itw-video" preload="none" muted loop playsinline controls></video>
+        <button class="itw-nav itw-next" type="button" aria-label="Next object">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <p class="itw-caption" id="itw-caption"></p>
+      <div class="itw-strip" id="itw-strip" role="tablist" aria-label="Select in-the-wild object"></div>
+    </div>
+    <p class="figure-caption itw-figcaption">
+      <strong><span class="sc">HUG</span> in the wild.</strong> 30 objects with 10 uncut rollouts each, reaching 62.0% success in an unseen home with unseen objects. Success is counted as passing the object to the human. Sped up 2x.
     </p>
-    <p class="eval-stats">Overall success rate &mdash; <b>HUG</b> 62.0%</p>
-    <div class="carousel results-carousel" id="itw-carousel"></div>
   </div>
 </section>
 <!-- End HUG in the wild -->
@@ -178,7 +185,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Humans can grasp objects effortlessly, whereas multi-fingered robots are far from this level of generality. We argue that the most natural source of robot grasping data is from humans, who pick up thousands of objects every day. We present <strong class="sc">HUG</strong>, a flow-matching model that generates diverse human grasps for any user-specified object in a single RGB-D image captured from a stereo camera. Using smart glasses, we first collect <strong class="sc">1M-HUGs</strong>, an egocentric dataset of human grasps spanning 1M frames (27.8 hrs) and 6,707 object instances across 41 buildings. To model the distribution of natural human grasps, our flow-matching model fuses RGB and depth observations to output a grasp parameterized by wrist translation, wrist rotation, and MANO hand pose. Predicted grasps can be retargeted to various robot hands, enabling zero-shot grasping in everyday scenes. To standardize evaluation, we build a new simulated benchmark, <strong class="sc">HUG-Bench</strong>, of 90 unseen objects from five geometric categories and various sizes, with metric-scale 3D meshes. <span class="sc">HUG</span> outperforms state-of-the-art grasping baselines by <strong>+23%</strong> and <strong>+34%</strong> on our challenging object set across multiple stereo cameras, robot embodiments, and household environments.
+            Humans can grasp objects effortlessly, whereas multi-fingered robots are far from this level of generality. We argue that the most natural source of robot grasping data is from humans, who pick up thousands of objects every day. We present <strong class="sc">HUG</strong>, a flow-matching model that generates diverse human grasps for any user-specified objects in a single RGBD image captured from a stereo camera. Using smart glasses, we first collect <strong class="sc">1M-HUGs</strong>, an egocentric dataset of human grasps spanning 1M frames (27.8 hrs) and 6,707 object instances across 41 buildings. Next, to model the distribution of natural human grasps, our novel flow-matching model fuses RGB and depth observations to output a grasp parameterized by wrist translation, wrist rotation, and MANO hand pose. Predicted grasps can be retargeted to various robot hands, enabling zero-shot grasping in everyday scenes. To standardize evaluation, we build a new simulated benchmark, <strong class="sc">HUG-Bench</strong>, of 90 unseen objects from five geometric categories and various sizes, with metric-scale 3D meshes. We evaluate <span class="sc">HUG</span> in the real world on the 30-object <code>test</code> set of <span class="sc">HUG-Bench</span> across multiple stereo cameras, robot embodiments, and household environments. <span class="sc">HUG</span> outperforms the state-of-the-art grasping baselines by <strong>+23%</strong> and <strong>+34%</strong> on our challenging object set. Code, data, benchmark, checkpoints, and an interactive demo are released on our website.
           </p>
         </div>
       </div>
@@ -194,10 +201,10 @@
       <div class="column is-four-fifths">
         <h2 class="title is-3 has-text-centered">Contributions</h2>
         <ul class="contrib-list">
-          <li><strong>Human-only, any-hand framework.</strong> To our knowledge, the first grasping framework trained purely on human data and deployable across multiple robot embodiments with no per-hand training.</li>
-          <li><strong><span class="sc">1M-HUGs</span> dataset.</strong> One million egocentric image&ndash;grasp pairs of natural human grasps across 6.7K recordings and 41 buildings, with MANO-fit hand poses and metric depth.</li>
-          <li><strong><span class="sc">HUG</span> model.</strong> A model that predicts MANO grasps from a single RGB-D image and a click, and retargets to multiple robot hands without per-embodiment tuning.</li>
-          <li><strong><span class="sc">HUG-Bench</span>.</strong> 90 unseen everyday objects with metric-scale 3D meshes for paired simulation and real-world evaluation of dexterous grasping.</li>
+          <li>To our knowledge, <span class="sc">HUG</span> is the first grasping framework trained purely on human data and deployable across multiple robot embodiments.</li>
+          <li><strong>Dataset.</strong> <span class="sc">1M-HUGs</span>, 1M egocentric image-grasp pairs of natural human grasps across 6.7K recordings and 41 buildings, with MANO-fit hand poses and metric depth.</li>
+          <li><strong>Method.</strong> <span class="sc">HUG</span>, a point-conditioned flow-matching model that predicts MANO grasps from RGB-D and retargets to multiple embodiments without per-hand training.</li>
+          <li><strong>Benchmark.</strong> <span class="sc">HUG-Bench</span>, 90 unseen objects with metric-scale 3D meshes for paired simulation and real-world evaluation.</li>
         </ul>
       </div>
     </div>
@@ -205,54 +212,46 @@
 </section>
 <!-- End contributions -->
 
-<!-- Approach -->
-<section class="section hero is-light">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">How It Works</h2>
-    <div class="figure-block is-padded">
-      <img src="static/images/method.jpg" alt="HUG pipeline: RGB-D plus a query point are fused by a transformer to condition a flow-matching model that outputs a MANO grasp, retargeted to robot hands" loading="lazy"/>
-      <p class="figure-caption">
-        <strong>The <span class="sc">HUG</span> pipeline.</strong> A frozen vision backbone and point encoder fuse the click-conditioned RGB-D observation; a flow-matching model then generates a MANO grasp (wrist translation, rotation, and hand pose), which is retargeted to robot hands at deployment.
-      </p>
-    </div>
-  </div>
-</section>
-<!-- End approach -->
-
 <!-- Dataset -->
-<section class="section">
+<section class="section hero is-light">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">The <span class="sc">1M-HUGs</span> Dataset</h2>
     <div class="figure-block">
       <img src="static/images/dataset.jpg" alt="Sample egocentric frames from 1M-HUGs with MANO hand meshes overlaid on grasped everyday objects" loading="lazy"/>
       <p class="figure-caption">
-        <strong>Natural human grasps, at scale.</strong> Egocentric frames captured with smart glasses across 41 buildings, each annotated with a MANO-fit hand pose grasping an everyday object.
+        <strong><span class="sc">1M-HUGs</span> dataset.</strong> Our training dataset comprises 1M egocentric frames of natural human grasps, spanning 6,707 object instances. Each entry provides synchronized RGB and stereo grayscale views, metric depth, an object mask, and an optimized MANO hand pose with wrist transformation in the camera frame.
       </p>
     </div>
   </div>
 </section>
 <!-- End dataset -->
 
+<!-- Approach -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered"><span class="sc">HUG</span> Architecture</h2>
+    <div class="figure-block is-padded">
+      <img src="static/images/method.jpg" alt="HUG pipeline: RGB-D plus a query point are fused by a transformer to condition a flow-matching model that outputs a MANO grasp, retargeted to robot hands" loading="lazy"/>
+      <p class="figure-caption">
+        <strong><span class="sc">HUG</span> architecture.</strong> Conditioned on an RGB-D image and a click on the target object, <span class="sc">HUG</span> predicts MANO hand grasps via a flow-matching transformer over fused RGB and point cloud features. Predicted human grasps are then retargeted zero-shot to downstream robot hands.
+      </p>
+    </div>
+  </div>
+</section>
+<!-- End approach -->
+
 <!-- HUG-Bench -->
 <section class="section hero is-light">
   <div class="container is-max-desktop">
-    <div class="columns is-vcentered">
-      <div class="column is-half">
-        <h2 class="title is-3"><span class="sc">HUG-Bench</span></h2>
-        <div class="content has-text-justified">
-          <p>
-            To standardize dexterous grasping evaluation, <span class="sc">HUG-Bench</span> comprises <strong>90 everyday objects</strong> spanning five geometric categories (cylindrical, spheroidal, prismatic, appendaged, amorphous) and three size bins, all unseen during training. Many are articulated, very short, or large and unwieldy, demanding diverse grasp poses and precise spatial accuracy.
-          </p>
-          <p>
-            Each real object is reconstructed into a <strong>metric-scale 3D mesh</strong> from multi-view egocentric scans, enabling paired evaluation in both simulation and the real world. The 30-object <code>test</code> split is reproducible for roughly 250 USD from Amazon.
-          </p>
-        </div>
+    <h2 class="title is-3 has-text-centered"><span class="sc">HUG-Bench</span></h2>
+    <div class="figure-block">
+      <div class="figure-row">
+        <img src="static/images/benchmark_objects.jpg" alt="HUG-Bench test split: 30 unseen objects across five geometry categories and three size bins, shown as real objects (top) and reconstructed simulation assets (bottom)" loading="lazy"/>
+        <img src="static/images/sim_evaluation.jpg" alt="Real-to-sim grasping: HUG evaluated on HUG-Bench in simulation using real captured RGB-D inputs and a reconstructed point cloud" loading="lazy"/>
       </div>
-      <div class="column is-half">
-        <div class="figure-block" style="max-width: 320px; margin: 0 auto;">
-          <img src="static/images/benchmark_objects.jpg" alt="HUG-Bench test split: 30 unseen objects across five geometry categories and three size bins, shown as real objects (top) and reconstructed simulation assets (bottom)" loading="lazy"/>
-        </div>
-      </div>
+      <p class="figure-caption">
+        <strong><span class="sc">HUG-Bench</span>.</strong> 90 unseen everyday objects spanning five geometric categories and three size bins, each reconstructed into a metric-scale 3D mesh for paired evaluation in simulation and the real world. <em>Left:</em> the 30-object <code>test</code> split with real objects (top) and their simulation assets (bottom). <em>Right:</em> real-to-sim grasping, evaluating <span class="sc">HUG</span> on <span class="sc">HUG-Bench</span> in simulation using real captured inputs.
+      </p>
     </div>
   </div>
 </section>
@@ -261,11 +260,11 @@
 <!-- Benchmark rollouts (object grid + method comparison) -->
 <section class="section" id="eval-gallery">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Benchmark Rollouts</h2>
-    <p class="subtitle has-text-centered eval-intro">
-      Pick an object to compare methods side by side. Each clip plays 10 rollouts back to back (2&times; speed); the two panels are the stereo camera views.
+    <h2 class="title is-3 has-text-centered">Basline Comparisons</h2>
+    <p class="eval-stats">Overall success rate: <b>CAP</b> 32.7% &middot; <b>Dex1B</b> 43.7% &middot; <b>HUG</b> 66.7%</p>
+    <p class="eval-intro">
+      Pick a <span class="sc">HUG-Bench</span> <code>test</code> object to compare methods side by side. Each clip plays 10 rollouts consecutively. Success is counted as lifting the object off the table. Sped up 2x.
     </p>
-    <p class="eval-stats">Overall success rate &mdash; <b>CAP</b> 32.7% &middot; <b>Dex1B</b> 43.7% &middot; <b>HUG</b> 66.7%</p>
     <div class="object-table-wrap">
       <div id="object-grid" class="object-table" role="tablist" aria-label="Select benchmark object by geometry and size"></div>
     </div>
@@ -276,7 +275,7 @@
           <span class="m-rate" id="rate-cap"></span>
           <span class="m-bar"><i id="bar-cap"></i></span>
         </div>
-        <video id="vid-cap" preload="none" muted loop controls playsinline></video>
+        <video id="vid-cap" preload="metadata" muted loop controls playsinline></video>
       </div>
       <div class="method-row">
         <div class="method-meta">
@@ -284,7 +283,7 @@
           <span class="m-rate" id="rate-dex1b"></span>
           <span class="m-bar"><i id="bar-dex1b"></i></span>
         </div>
-        <video id="vid-dex1b" preload="none" muted loop controls playsinline></video>
+        <video id="vid-dex1b" preload="metadata" muted loop controls playsinline></video>
       </div>
       <div class="method-row">
         <div class="method-meta">
@@ -292,11 +291,11 @@
           <span class="m-rate" id="rate-hug"></span>
           <span class="m-bar"><i id="bar-hug"></i></span>
         </div>
-        <video id="vid-hug" preload="none" muted loop controls playsinline></video>
+        <video id="vid-hug" preload="metadata" muted loop controls playsinline></video>
       </div>
     </div>
     <p class="eval-note">
-      <strong>Note on Dex1B.</strong> Dex1B runs open-loop and can plan trajectories that collide with the <strong>table</strong> (not the foam safety mount). Severe table collisions are aborted to protect the hardware and counted as failures, with the colliding trajectory shown in the <strong>right panel</strong>. Collisions that eject the hand from the safety mount are also counted as failures.
+      <strong>Note on Dex1B.</strong> Dex1B runs open-loop and can plan trajectories that collide with the table. Severe table collisions are aborted to protect the hardware and counted as failures, with the colliding trajectory shown in the right panel. Collisions that eject the hand from the safety mount are also counted as failures.
     </p>
   </div>
 </section>
@@ -309,7 +308,7 @@
     <div class="figure-block">
       <img src="static/images/failure_modes.jpg" alt="Failure-mode breakdown: Sankey flow of 300 HUG-Bench test trials through pre-grasp, grasp, and lift stages for tabletop and in-the-wild settings" loading="lazy"/>
       <p class="figure-caption">
-        <strong>Failure-mode breakdown.</strong> Grasp-outcome flow for the 300 <span class="sc">HUG-Bench</span> <code>test</code> trials in each real-world setting, tracing every attempt through the pre-grasp, grasp, and lift stages into success or a specific failure. Left: tabletop (66.7% success). Right: in-the-wild (62.0% success). The dominant failure mode is the absence of motion planning in our minimal open-loop setup.
+        <strong>Failure-mode breakdown.</strong> Grasp-outcome flow for the 300 <span class="sc">HUG-Bench</span> <code>test</code> trials in each real-world setting, tracing every attempt through the pre-grasp, grasp, and lift stages into success or a specific failure. Left: tabletop (66.7% success). Right: in-the-wild (62.0% success). The dominant cause of failures is the absence of motion planning in our minimal open-loop setup. With force-aware grasping, we also expect to see fewer failures due to to object slippage in the lift stage.
       </p>
     </div>
   </div>
