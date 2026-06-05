@@ -1,26 +1,38 @@
-/* Modern CSS Variables for consistent theming */
+/* Sober academic theme — flat surfaces, classic blue links, paper-like */
 :root {
-  --primary-color: #2563eb;
-  --primary-hover: #1d4ed8;
-  --secondary-color: #64748b;
-  --accent-color: #0ea5e9;
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --text-light: #94a3b8;
+  --primary-color: #1a56b0;
+  --primary-hover: #103e80;
+  --secondary-color: #555555;
+  --accent-color: #1a56b0;
+  --accent-tint: #eef2f8;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a4a4a;
+  --text-light: #888888;
+  --heading-color: #444444;
   --background-primary: #ffffff;
-  --background-secondary: #f8fafc;
-  --background-accent: #f1f5f9;
-  --border-color: #e2e8f0;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --gradient-subtle: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-  --border-radius: 12px;
-  --border-radius-lg: 16px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --background-secondary: #f6f6f4;
+  --background-accent: #f0f0ee;
+  --border-color: #dddddc;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+  --gradient-primary: var(--primary-color);
+  --gradient-accent: var(--primary-color);
+  --gradient-subtle: var(--background-secondary);
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Roboto Mono', monospace;
+  --border-radius: 4px;
+  --border-radius-lg: 6px;
+  --transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+/* Small-caps for named entities (web equivalent of \textsc):
+   keeps capitals full-height, renders lowercase as small caps */
+.sc {
+  font-variant-caps: small-caps;
+  font-feature-settings: "smcp";
+  letter-spacing: 0.02em;
 }
 
 /* Smooth scrolling for better UX */
@@ -115,11 +127,22 @@ body {
 
 /* Publication Content Styling */
 .publication-title {
-    font-family: 'Inter', sans-serif !important;
-    font-weight: 800 !important;
-    color: var(--text-primary) !important;
-    margin-bottom: 2rem !important;
-    line-height: 1.1 !important;
+    font-family: var(--font-display) !important;
+    font-weight: 700 !important;
+    color: var(--heading-color) !important;
+    margin-bottom: 1.25rem !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.01em;
+}
+
+.publication-tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    max-width: 42rem;
+    margin: 0 auto 1.75rem;
+    line-height: 1.5;
 }
 
 .publication-banner {
@@ -261,18 +284,11 @@ body {
 .results-carousel .item {
   margin: 1rem;
   overflow: hidden;
-  padding: 1.5rem;
+  padding: 1rem;
   font-size: 0;
   background: var(--background-primary);
   border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-md);
-  transition: var(--transition);
   border: 1px solid var(--border-color);
-}
-
-.results-carousel .item:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
 }
 
 .results-carousel .item img,
@@ -309,36 +325,25 @@ body {
 }
 
 /* Section Titles */
-.title.is-3 {
-  font-family: 'Inter', sans-serif !important;
-  font-weight: 700 !important;
-  color: var(--text-primary);
-  margin-bottom: 2rem !important;
-  position: relative;
-  padding-bottom: 1rem;
-}
-
-.title.is-3::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: var(--gradient-accent);
-  border-radius: 2px;
+.title.is-3,
+.title.is-2,
+#BibTeX .title {
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em;
+  color: var(--heading-color) !important;
+  margin-bottom: 1.75rem !important;
 }
 
 /* Content Improvements */
 .content.has-text-justified {
-  font-size: 1.1rem;
-  line-height: 1.8;
+  font-size: 0.95rem;
+  line-height: 1.7;
   color: var(--text-secondary);
 }
 
 .content.has-text-justified p {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 /* Footer Improvements */
@@ -350,7 +355,9 @@ body {
 
 .footer .content {
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: 1.6;
+  font-size: 0.8rem;
+  text-align: center;
 }
 
 .footer a {
@@ -390,13 +397,13 @@ code {
 }
 
 .copy-bibtex-btn {
-  background: var(--primary-color);
+  background: #363636;
   color: white;
   border: none;
   border-radius: var(--border-radius);
-  padding: 0.75rem 1rem;
-  font-size: 0.9rem;
-  font-weight: 600;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 500;
   cursor: pointer;
   transition: var(--transition);
   display: inline-flex;
@@ -405,9 +412,7 @@ code {
 }
 
 .copy-bibtex-btn:hover {
-  background: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  background: #000000;
 }
 
 .copy-bibtex-btn.copied {
@@ -425,7 +430,7 @@ code {
   right: 2rem;
   width: 50px;
   height: 50px;
-  background: var(--primary-color);
+  background: #363636;
   color: white;
   border: none;
   border-radius: 50%;
@@ -438,13 +443,10 @@ code {
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
-  box-shadow: var(--shadow-lg);
 }
 
 .scroll-to-top:hover {
-  background: var(--primary-hover);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-xl);
+  background: #000000;
 }
 
 .scroll-to-top.visible {
@@ -707,21 +709,7 @@ code {
   }
 }
 
-/* Animation for page load */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hero, .section {
-  animation: fadeInUp 0.6s ease-out;
-}
+/* (page-load animation removed for a calmer, paper-like feel) */
 
 /* Improved focus states for accessibility */
 .button:focus,
@@ -731,6 +719,187 @@ a:focus {
   outline-offset: 2px;
 }
 
+
+/* ============================================================
+   Warm & human theme — custom components
+   ============================================================ */
+
+/* Hero background: plain white */
+.hero.publication-header,
+section.hero:first-of-type {
+  background: var(--background-primary);
+}
+
+/* Eyebrow + venue chip */
+.publication-eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  background: var(--background-accent);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.review-chip {
+  display: inline-block;
+  font-weight: 500;
+  font-size: 1.05rem;
+  color: var(--secondary-color);
+  margin-top: 0.25rem;
+}
+
+/* Button row */
+.publication-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-top: 1.75rem;
+}
+
+.hug-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+  font-size: 0.8rem;
+  padding: 0.38rem 0.85rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: var(--transition);
+  border: 1px solid #363636;
+  background: #363636;
+  color: #ffffff;
+}
+.hug-btn:hover {
+  background: #000000;
+  border-color: #000000;
+  color: #ffffff;
+}
+.hug-btn.is-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.hug-btn .tag-soon {
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  border-radius: 3px;
+  padding: 0.1rem 0.35rem;
+}
+
+/* Stats band */
+.stats-band {
+  background: var(--gradient-subtle);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 2.5rem 1.5rem;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.stat-card {
+  text-align: center;
+  padding: 0.5rem;
+}
+.stat-number {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--secondary-color);
+  margin-top: 0.45rem;
+}
+
+/* Contributions list */
+.contrib-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.contrib-list li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+.contrib-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  background: var(--primary-color);
+  border-radius: 50%;
+}
+.contrib-list strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Full-width figure blocks */
+.figure-block {
+  margin: 0 auto;
+  max-width: 1000px;
+}
+.figure-block img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  background: #fff;
+}
+.figure-block.is-padded {
+  margin-top: 1.25rem;
+  margin-bottom: -0.75rem;
+}
+.figure-block.is-padded img {
+  padding: 1.5rem 1.75rem 0;
+}
+.figure-caption {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-top: 1rem;
+  text-align: center;
+}
+.figure-caption strong { color: var(--text-primary); }
+
+@media screen and (max-width: 900px) {
+  .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem 1rem; }
+  .contrib-grid { grid-template-columns: 1fr; }
+}
+@media screen and (max-width: 480px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-number { font-size: 1.6rem; }
+}
 
 /* Print styles */
 @media print {
