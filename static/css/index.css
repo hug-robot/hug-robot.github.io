@@ -306,6 +306,185 @@ body {
   font-weight: 500;
 }
 
+/* ---- Eval-video gallery ---- */
+.eval-intro {
+  max-width: 720px;
+  margin: 0 auto 1.5rem auto;
+  color: var(--text-secondary);
+}
+
+.eval-stats {
+  text-align: center;
+  margin: -0.75rem auto 1.5rem auto;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.eval-stats b {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.eval-note {
+  max-width: 680px;
+  margin: 1.25rem auto 0 auto;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--text-light);
+  background: var(--accent-tint);
+  border-left: 3px solid var(--primary-color);
+  border-radius: var(--border-radius);
+}
+
+/* Object table: rows = size (S/M/L), columns = geometry (2 objects each) */
+.object-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+
+.object-table {
+  display: grid;
+  grid-template-columns: auto repeat(10, minmax(62px, 1fr));
+  gap: 0.4rem 0.45rem;
+  min-width: 680px;
+}
+
+.ot-geo {
+  grid-column: span 2;
+  align-self: end;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--heading-color);
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.ot-size {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 0.45rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  border-right: 2px solid var(--border-color);
+}
+
+.object-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem;
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  cursor: pointer;
+  transition: var(--transition), transform 0.15s ease;
+  font-family: inherit;
+}
+
+/* contain (not cover) so the full object is visible; sources are tight crops */
+.object-thumb img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  padding: 3px;
+  border-radius: var(--border-radius);
+  background: var(--background-secondary);
+}
+
+.object-thumb span {
+  font-size: 0.58rem;
+  line-height: 1.1;
+  color: var(--text-secondary);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.object-thumb:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary-color);
+}
+
+.object-thumb.is-active {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.object-thumb.is-active span {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Method comparison players: name + success rate on the side, compact clips */
+#object-videos {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* side label | centered video | matching spacer (keeps video centered) */
+.method-row {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 680px) 84px;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.85rem;
+  margin: 0.4rem 0;
+}
+
+.method-meta {
+  grid-column: 1;
+  text-align: right;
+}
+
+.m-name {
+  display: block;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+}
+
+.m-rate {
+  display: block;
+  margin-top: 1px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.m-bar {
+  display: block;
+  height: 4px;
+  margin-top: 5px;
+  background: var(--background-accent);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.m-bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--primary-color);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+#object-videos video {
+  grid-column: 2;
+  min-width: 0;
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background: #000;
+}
+
 /* Pagination and Misc Improvements */
 .slider-pagination .slider-page {
   background: var(--primary-color);

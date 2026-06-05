@@ -58,7 +58,7 @@
 
   <!-- Critical CSS - Load synchronously -->
   <link rel="stylesheet" href="static/css/bulma.min.css">
-  <link rel="stylesheet" href="static/css/index.css?v=17">
+  <link rel="stylesheet" href="static/css/index.css?v=26">
 
   <!-- Non-critical CSS - Load asynchronously -->
   <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -157,20 +157,18 @@
 </section>
 
 
-<!-- Teaser figure -->
-<section class="hero teaser">
+<!-- HUG in the wild (carousel) -->
+<section class="section" id="in-the-wild">
   <div class="container is-max-desktop">
-    <div class="hero-body">
-      <div class="figure-block">
-        <img src="static/images/real_world_grasps.jpg" alt="HUG retargeting predicted human grasps to multiple robot hands across real household scenes" loading="eager"/>
-        <p class="figure-caption">
-          <strong><span class="sc">HUG</span> learns dexterous grasping without any robot data.</strong> Trained solely on egocentric human grasps, <span class="sc">HUG</span> generates a grasp for any user-clicked object from a single RGB-D image, then retargets it to multiple robot hands across unseen homes.
-        </p>
-      </div>
-    </div>
+    <h2 class="title is-3 has-text-centered">HUG in the Wild</h2>
+    <p class="subtitle has-text-centered eval-intro">
+      Zero-shot dexterous grasps on everyday objects in real homes &mdash; 10 rollouts per clip, sped up 2&times;.
+    </p>
+    <p class="eval-stats">Overall success rate &mdash; <b>HUG</b> 62.0%</p>
+    <div class="carousel results-carousel" id="itw-carousel"></div>
   </div>
 </section>
-<!-- End teaser figure -->
+<!-- End HUG in the wild -->
 
 <!-- Paper abstract -->
 <section class="section hero is-light">
@@ -260,8 +258,52 @@
 </section>
 <!-- End HUG-Bench -->
 
+<!-- Benchmark rollouts (object grid + method comparison) -->
+<section class="section" id="eval-gallery">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Benchmark Rollouts</h2>
+    <p class="subtitle has-text-centered eval-intro">
+      Pick an object to compare methods side by side. Each clip plays 10 rollouts back to back (2&times; speed); the two panels are the stereo camera views.
+    </p>
+    <p class="eval-stats">Overall success rate &mdash; <b>CAP</b> 32.7% &middot; <b>Dex1B</b> 43.7% &middot; <b>HUG</b> 66.7%</p>
+    <div class="object-table-wrap">
+      <div id="object-grid" class="object-table" role="tablist" aria-label="Select benchmark object by geometry and size"></div>
+    </div>
+    <div id="object-videos">
+      <div class="method-row">
+        <div class="method-meta">
+          <span class="m-name">CAP</span>
+          <span class="m-rate" id="rate-cap"></span>
+          <span class="m-bar"><i id="bar-cap"></i></span>
+        </div>
+        <video id="vid-cap" preload="none" muted loop controls playsinline></video>
+      </div>
+      <div class="method-row">
+        <div class="method-meta">
+          <span class="m-name">Dex1B</span>
+          <span class="m-rate" id="rate-dex1b"></span>
+          <span class="m-bar"><i id="bar-dex1b"></i></span>
+        </div>
+        <video id="vid-dex1b" preload="none" muted loop controls playsinline></video>
+      </div>
+      <div class="method-row">
+        <div class="method-meta">
+          <span class="m-name">HUG</span>
+          <span class="m-rate" id="rate-hug"></span>
+          <span class="m-bar"><i id="bar-hug"></i></span>
+        </div>
+        <video id="vid-hug" preload="none" muted loop controls playsinline></video>
+      </div>
+    </div>
+    <p class="eval-note">
+      <strong>Note on Dex1B.</strong> Dex1B runs open-loop and can plan trajectories that collide with the <strong>table</strong> (not the foam safety mount). Severe table collisions are aborted to protect the hardware and counted as failures, with the colliding trajectory shown in the <strong>right panel</strong>. Collisions that eject the hand from the safety mount are also counted as failures.
+    </p>
+  </div>
+</section>
+<!-- End benchmark rollouts -->
+
 <!-- Real-world failure modes -->
-<section class="section">
+<section class="section hero is-light">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Real-World Failure Modes</h2>
     <div class="figure-block">
